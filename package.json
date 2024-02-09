@@ -1,19 +1,17 @@
 {
   "name": "puppeteer-clusterer",
-  "version": "0.0.1",
-  "description": "Cluster management for puppeteer",
+  "version": "0.0.2",
+  "description": "An updated cluster management package for puppeteer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
-    "coverage": "jest --coverage",
-    "dev": "tsc --watch"
+    "test": "jest"
   },
   "author": "Murray Du Preez",
   "repository": {
     "type": "git",
-    "url": "https://github.com/murray0du0preez/puppeteer-clusterer.git"
+    "url": "git+https://github.com/murray0du0preez/puppeteer-clusterer.git"
   },
   "homepage": "https://github.com/murray0du0preez/puppeteer-clusterer",
   "keywords": [
@@ -32,7 +30,6 @@
     "@types/debug": "4.1.7",
     "@types/jest": "27.4.0",
     "@types/node": "16.11.21",
-    "coveralls": "3.1.1",
     "express": "4.17.2",
     "jest": "27.4.7",
     "puppeteer": "13.1.1",

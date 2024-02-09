@@ -4,9 +4,4 @@ module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
     testMatch: ["**/test/**/?(*.)+(spec|test).[jt]s?(x)"],
-    coverageReporters: [
-        "lcov",
-        "text",
-        "text-summary"
-    ],
 };
