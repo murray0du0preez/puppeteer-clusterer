@@ -21,7 +21,7 @@ export default class SystemMonitor {
 
     private loads: SystemLoad[] = [];
 
-    private interval: NodeJS.Timer | null = null;
+    private interval: NodeJS.Timeout | null = null;
 
     // After init is called there is at least something in the cpuUsage thingy
     public init() {
@@ -39,7 +39,9 @@ export default class SystemMonitor {
     }
 
     public close() {
-        clearInterval(this.interval as NodeJS.Timer);
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
     }
 
     private calcLoad() { // based on https://gist.github.com/bag-man/5570809
@@ -48,7 +50,7 @@ export default class SystemMonitor {
         const cpus = os.cpus();
 
         if (!cpus) {
-            // In some environments, os.cpus() might return undefined (although it's not stated in
+            // In some environments, os.cpus() might return undefined (although it's `no`t stated in
             // the Node.js docs), see #113 for more information
             return;
         }

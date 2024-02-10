@@ -1,4 +1,3 @@
-
 import Job, { ExecuteResolve, ExecuteReject, ExecuteCallbacks } from './Job';
 import Display from './Display';
 import * as util from './util';
@@ -446,8 +445,8 @@ export default class Cluster<JobData = any, ReturnData = any> extends EventEmitt
     public async close(): Promise<void> {
         this.isClosed = true;
 
-        clearInterval(this.checkForWorkInterval as NodeJS.Timer);
-        clearTimeout(this.workCallTimeout as NodeJS.Timer);
+        clearInterval(this.checkForWorkInterval as NodeJS.Timeout);
+        clearTimeout(this.workCallTimeout as NodeJS.Timeout);
 
         // close workers
         await Promise.all(this.workers.map(worker => worker.close()));
@@ -460,7 +459,7 @@ export default class Cluster<JobData = any, ReturnData = any> extends EventEmitt
 
         if (this.monitoringInterval) {
             this.monitor();
-            clearInterval(this.monitoringInterval);
+            clearInterval(this.monitoringInterval as NodeJS.Timeout);
         }
 
         if (this.display) {

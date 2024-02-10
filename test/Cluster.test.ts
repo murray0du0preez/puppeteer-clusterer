@@ -806,7 +806,10 @@ describe('Repair', () => {
 
                 const cluster = await Cluster.launch({
                     concurrency,
-                    puppeteerOptions: { args: ['--no-sandbox'] },
+                    puppeteerOptions: {
+                        protocolTimeout: 5000,
+                        args: ['--no-sandbox']
+                    },
                     maxConcurrency: 1,
                 });
                 cluster.on('taskerror', (err) => {

@@ -1,6 +1,11 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [0.1.0] - 2024-02-10
+### Changed
+- Updated all dependencies to the there latest verions
+- Edited some code to be compatible with the updates
+
 ## [0.0.2] - 2024-02-09
 ### Changed
 - Made the readme and package.json make more sense for this project
