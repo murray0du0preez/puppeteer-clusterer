@@ -9,13 +9,13 @@ import type { Page, PuppeteerNodeLaunchOptions } from 'puppeteer';
 import Queue from './Queue';
 import SystemMonitor from './SystemMonitor';
 import { EventEmitter } from 'events';
-import ConcurrencyImplementation, { WorkerInstance, ConcurrencyImplementationClassType }
+import ConcurrencyImplementation, { WorkerInstance, ConcurrencyImplementationClassType, ConcurrencyImplementationFnType }
     from './concurrency/ConcurrencyImplementation';
 
 const debug = util.debugGenerator('Cluster');
 
 interface ClusterOptions {
-    concurrency: number | ConcurrencyImplementationClassType;
+    concurrency: number | ConcurrencyImplementationClassType | ConcurrencyImplementationFnType;
     maxConcurrency: number;
     workerCreationDelay: number;
     puppeteerOptions: PuppeteerNodeLaunchOptions;
@@ -40,6 +40,7 @@ const DEFAULT_OPTIONS: ClusterOptions = {
     maxConcurrency: 1,
     workerCreationDelay: 0,
     puppeteerOptions: {
+        headless: true,
         // headless: false, // just for testing...
     },
     perBrowserOptions: undefined,
@@ -58,6 +59,7 @@ interface TaskFunctionArguments<JobData> {
     worker: {
         id: number;
     };
+    [key: string]: any;
 }
 
 export type TaskFunction<JobData, ReturnData> = (
@@ -118,6 +120,10 @@ export default class Cluster<JobData = any, ReturnData = any> extends EventEmitt
         this.options = {
             ...DEFAULT_OPTIONS,
             ...options,
+            puppeteerOptions: {
+                ...DEFAULT_OPTIONS.puppeteerOptions,
+                ...options.puppeteerOptions,
+            }
         };
 
         if (this.options.monitor) {
@@ -145,7 +151,7 @@ export default class Cluster<JobData = any, ReturnData = any> extends EventEmitt
         } else if (this.options.concurrency === Cluster.CONCURRENCY_BROWSER) {
             this.browser = new builtInConcurrency.Browser(browserOptions, puppeteer);
         } else if (typeof this.options.concurrency === 'function') {
-            this.browser = new this.options.concurrency(browserOptions, puppeteer);
+            this.browser = (this.options.concurrency as ConcurrencyImplementationFnType)(browserOptions, puppeteer);
         } else {
             throw new Error(`Unknown concurrency option: ${this.options.concurrency}`);
         }

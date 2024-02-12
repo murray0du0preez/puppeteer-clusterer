@@ -5,6 +5,7 @@ import * as puppeteer from 'puppeteer';
 import * as puppeteerCore from 'puppeteer-core';
 import ConcurrencyImplementation from '../src/concurrency/ConcurrencyImplementation';
 import Browser from '../src/concurrency/built-in/Browser';
+import {LaunchOptions} from "puppeteer";
 
 const kill = require('tree-kill');
 
@@ -620,7 +621,9 @@ describe('options', () => {
             }
 
             const cluster = await Cluster.launch({
-                concurrency: CustomConcurrency,
+                concurrency: (options: LaunchOptions, puppeteer: any)=>{
+                    return new CustomConcurrency(options, puppeteer)
+                }, // use one of the existing implementations
                 puppeteerOptions: { args: ['--no-sandbox'] },
                 maxConcurrency: 1,
             });
@@ -644,7 +647,9 @@ describe('options', () => {
             expect.assertions(2);
 
             const cluster = await Cluster.launch({
-                concurrency: Browser, // use one of the existing implementations
+                concurrency: (options: LaunchOptions, puppeteer: any)=>{
+                    return new Browser(options, puppeteer)
+                }, // use one of the existing implementations
                 puppeteerOptions: { args: ['--no-sandbox'] },
                 maxConcurrency: 1,
             });
@@ -720,7 +725,9 @@ describe('options', () => {
 
             const cluster = await Cluster.launch({
                 perBrowserOptions,
-                concurrency: TestConcurrency,
+                concurrency: (options: LaunchOptions, puppeteer: any)=>{
+                    return new TestConcurrency(options, puppeteer)
+                }, // use one of the existing implementations
                 maxConcurrency: 1,
             });
             cluster.on('taskerror', (err) => {

@@ -1,9 +1,13 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [0.1.1] - 2024-02-12
+### Changed
+- Brought over all the fixes from zek's version
+
 ## [0.1.0] - 2024-02-10
 ### Changed
-- Updated all dependencies to the there latest verions
+- Updated all dependencies to there latest versions
 - Edited some code to be compatible with the updates
 
 ## [0.0.2] - 2024-02-09

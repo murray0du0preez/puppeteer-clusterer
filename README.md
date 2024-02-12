@@ -4,7 +4,7 @@
 [![npm download count](https://img.shields.io/npm/dm/puppeteer-clusterer)](https://www.npmjs.com/package/puppeteer-clusterer)
 [![MIT License](https://img.shields.io/npm/l/puppeteer-clusterer.svg)](#license)
 
-An unoffical updated version of [puppeteer-cluster](https://github.com/thomasdondorf/puppeteer-cluster) with fixes and other miscellaneous changes
+An unoffical updated version of [puppeteer-cluster](https://github.com/thomasdondorf/puppeteer-cluster) with fixes and other miscellaneous changes based on [zek's](https://github.com/zek/puppeteer-cluster) fork
 
 - [Installation](#installation)
 - [Examples](#examples)

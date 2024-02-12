@@ -58,11 +58,12 @@ export default class Worker<JobData, ReturnData> implements WorkerOptions {
         let page: Page | null = null;
 
         let tries = 0;
+        let resources: any = {}
 
         while (jobInstance === null) {
             try {
-                jobInstance = await this.browser.jobInstance();
-                page = jobInstance.resources.page;
+                jobInstance = await this.browser.jobInstance(job);
+                ({page, ...resources} = jobInstance.resources)
             } catch (err: any) {
                 debug(`Error getting browser page (try: ${tries}), message: ${err.message}`);
                 await this.browser.repair();
@@ -90,6 +91,7 @@ export default class Worker<JobData, ReturnData> implements WorkerOptions {
             result = await timeoutExecute(
                 timeout,
                 task({
+                    ...resources,
                     page,
                     // data might be undefined if queue is only called with a function
                     // we ignore that case, as the user should use Cluster<undefined> in that case
